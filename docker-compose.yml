@@ -1,0 +1,62 @@
+services:
+  ros2:
+    image: ros:jazzy
+    user: ${USER_UID:?}:${USER_GID:?}
+    ipc: host
+    volumes:
+      - /tmp/.X11-unix/:/tmp/.X11-unix/
+      - ./data:/data
+      - home:/home
+      - root:/root
+      - etc:/etc
+      - log:/log
+      - usr:/usr
+      - var:/var
+    environment:
+      - DISPLAY
+      - XAUTHORITY
+    devices:
+      - /dev/kfd:/dev/kfd
+      - /dev/dri:/dev/dri
+    group_add:
+      - video
+    env_file:
+      - .env
+
+volumes:
+  home:
+    driver: local
+    driver_opts:
+      device: ${CONTAINER_ROOT_DATA_DIR:?}/home
+      type: none
+      o: bind
+  root:
+    driver: local
+    driver_opts:
+      device: ${CONTAINER_ROOT_DATA_DIR:?}/root
+      type: none
+      o: bind
+  etc:
+    driver: local
+    driver_opts:
+      device: ${CONTAINER_ROOT_DATA_DIR:?}/etc
+      type: none
+      o: bind
+  log:
+    driver: local
+    driver_opts:
+      device: ${CONTAINER_ROOT_DATA_DIR:?}/log
+      type: none
+      o: bind
+  usr:
+    driver: local
+    driver_opts:
+      device: ${CONTAINER_ROOT_DATA_DIR:?}/usr
+      type: none
+      o: bind
+  var:
+    driver: local
+    driver_opts:
+      device: ${CONTAINER_ROOT_DATA_DIR:?}/var
+      type: none
+      o: bind
