@@ -16,6 +16,10 @@ you can easily edit it to hardcode whether or not to use `sudo` for your situati
 
 3. Work in the container :)
 
+**Additional Note**:
+If you want a root shell, then (after running the run script) open a new terminal in this same directory
+and run `docker compose exec -u root -it ros2 bash` and you'll be dropped into a root shell in the container.
+
 ##### Directory structure
 
 Directories for YOUR data:
