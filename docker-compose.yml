@@ -1,11 +1,20 @@
 services:
   ros2:
-    image: ros:jazzy
+    # Using custom, slightly modified ROS2 image
+    image: ros-custom:latest
+    build:
+      context: ./build
+      dockerfile: Dockerfile
     user: ${USER_UID:?}:${USER_GID:?}
     ipc: host
     volumes:
-      - /tmp/.X11-unix/:/tmp/.X11-unix/
+      # Just a shared misc data directory for whatever you want. Not necessary.
       - ./data:/data
+
+      # For sharing X session, allowing graphical applications to run
+      - /tmp/.X11-unix/:/tmp/.X11-unix/
+
+      # Volumes for container persistence
       - home:/home
       - root:/root
       - etc:/etc
@@ -13,16 +22,21 @@ services:
       - usr:/usr
       - var:/var
     environment:
+      # For X session
       - DISPLAY
       - XAUTHORITY
+    # For AMD GPU acceleration
     devices:
       - /dev/kfd:/dev/kfd
       - /dev/dri:/dev/dri
     group_add:
       - video
-    env_file:
-      - .env
 
+# This is written weird and verbosely for two reasons:
+# 1. You can't bind mount the container's root FS out to a host directory (ex: `./container:/` throws an error if used as a volume).
+#    So we mount each important directory under / instead.
+# 2. If you use normal bind mount syntax it will make the directory inside the container empty (overriding the initial contents from the image).
+#    So we use named volume syntax to make it populate the directories with the initial content (we wouldn't want /usr to start empty or something)
 volumes:
   home:
     driver: local

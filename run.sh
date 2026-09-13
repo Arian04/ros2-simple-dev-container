@@ -7,5 +7,5 @@ mkdir -p ./data
 
 xhost +SI:localuser:$USER # allows your current local user to connect to the X server
 
-# runs the container in such a way that it can access the X server, deletes container on exit
-sudo docker compose run --rm -it ros2
+# runs the container (building if needed). deletes container on exit and starts it with interactive TTY
+sudo docker compose run --build --rm -it ros2
