@@ -1,8 +1,9 @@
-### Run ROS2 in a Docker container persistently and with graphical application support
+### Run ROS2 in a Docker container (persistently and with graphical application support)
 
 The expected workflow is pretty much as if you had a VM running ROS2, but without the larger resource usage of
 a VM over a container.
 
+---
 ### Usage
 
 1. Clone this repo into some directory
