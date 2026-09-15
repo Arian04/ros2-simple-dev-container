@@ -25,6 +25,11 @@ services:
       # For X session
       - DISPLAY
       - XAUTHORITY
+    # For GPU acceleration
+    devices:
+      - /dev/dri:/dev/dri
+    group_add:
+      - video
 
 # This is written weird and verbosely for two reasons:
 # 1. You can't bind mount the container's root FS out to a host directory (ex: `./container:/` throws an error if used as a volume).
